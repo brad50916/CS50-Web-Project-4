@@ -1,0 +1,112 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <div class="profile">
+        <h1>{{user1}}</h1>
+    </div>
+
+    <div class="d-flex justify-content-start text-center py-1 beauty">
+        <div>
+            <p class="mb-1 h5">{{count3}}</p>
+            <p class="small text-muted mb-0">Posts</p>
+        </div>
+        <div class="px-3">
+            <p class="mb-1 h5">{{count2}}</p>
+            <p class="small text-muted mb-0">Followers</p>
+        </div>
+        <div>
+            <p class="mb-1 h5">{{count1}}</p>
+            <p class="small text-muted mb-0">Following</p>
+        </div>
+    </div>
+
+    {% if user.is_authenticated and me != 1%}
+        {% if exist == 1 %}
+        <form action="{% url 'profile' id=user1.id%}" method="POST">
+            {% csrf_token%}
+            <input type="submit" name="unfollow" class="btn btn-outline-secondary follow_button" value="Unfollow">
+        </form>
+        {% else %}
+        <form action="{% url 'profile' id=user1.id%}" method="POST">
+            {% csrf_token%}
+            <input type="submit" name="follow" class="btn btn-outline-info follow_button" value="Follow">
+        </form>
+        {% endif %}
+    {% endif %}
+
+    {% for post in page_obj %}
+        <div class = "single_post">
+        <div><a href="{% url 'profile' id=post.user.id %}">{{post.user}}</a></div>
+        <div id="content{{post.id}}" class="p_content">{{post.content}}</div>
+
+        <form id="edit_form{{post.id}}" value="{{post.id}}" style="display: none;">
+            <textarea id="compose_body{{post.id}}" class=" edit_text">{{post.content}}</textarea>
+            <input type="submit" value="Save" class="btn btn-outline-primary edit_save">
+        </form>
+
+        <div class="date">{{post.date}}</div>
+
+        {% if user.is_authenticated %}
+        {% for liker in post.r_post.all%}
+            {% if user == liker.user %}
+            <div class="exist" value="{{post.id}}"></div>
+            {% endif %}
+        {% endfor %}
+
+        <div id="unlike{{post.id}}" style="display: none;" class="like_button">
+            <button type="button" class="btn btn-link unlike" value="{{post.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                </svg>
+            </button>
+        </div>
+        <div id="like{{post.id}}" style="display: block;" class="like_button">
+            <button type="button" class="btn btn-link like" value="{{post.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+            </button>
+        </div>
+        <div id="number{{post.id}}" class="like_num">{{post.like}}</div>
+        {% endif %}
+        {% if post.user == user %}
+        <button type="button" id="edit{{post.id}}" class="btn btn-outline-primary edit" value="{{post.id}}">Edit</button>
+        {% endif %}
+        </div>
+    {% endfor %}
+
+    <nav aria-label="..." class="pag">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for l in list %}
+                {% if l == page_obj.number %}
+                    <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{l}}">{{ l }}<span class="sr-only">(current)</span></a>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{l}}">{{l}}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+        <span class="current" class="page-item">
+            <!-- Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. -->
+        </span>
+    </nav>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/profile.js' %}"></script>
+{% endblock %}

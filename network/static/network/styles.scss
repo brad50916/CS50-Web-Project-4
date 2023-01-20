@@ -1,0 +1,83 @@
+$border: lightgray;
+
+.single_post {
+    border: 1px solid $border;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-family:'Helvetica';font-style:normal;font-weight:400;font-size: large;
+    box-shadow: 0 1px 1px rgba(103, 103, 103, 0.8);
+    
+}
+.pag {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.new_post{
+    border: 1px solid $border;
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px; 
+}
+.date{
+    color: rgb(109, 109, 109);
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+.like_button{
+    margin-left: -13px;
+    margin-top: -6px;
+    display: inline;
+    float: left;
+}
+.like_num{
+    margin-left: -5px;
+    color: rgb(109, 109, 109);
+    display: inline;
+}
+.edit{
+    margin-top: 10px;
+    margin-left: -3px;
+    display: block;
+}
+.edit_text{
+    width: 700px;
+    height: 150px;
+    border: 1px solid lightgray;
+}
+.edit_save{
+    display: block;
+}
+h1 {
+    margin-left: 20px;
+}
+.profile {
+    margin-left: 5px;
+    font-family:'Helvetica';font-style:normal;font-weight:400;font-size:larger; 
+}
+.follow_button{
+    margin-left: 20px;
+}
+.p_content {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.notuser{
+    margin-left: 0.5px;
+}
+.beauty{
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+.like_button1:hover{
+    background-color: rgb(152, 112, 112);
+}
